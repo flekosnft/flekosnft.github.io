@@ -1,0 +1,93 @@
+div.signer {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 2vh;
+}
+
+div.signer h {
+    font-size: 2vh;
+    font-weight: bold;
+    margin-left: 2vh;
+    margin-right: 1vh;
+}
+
+div.signer h:first-child{
+    margin-left: 0;
+}
+
+div.signer p{
+    font-size: 1.5vh;
+    margin: 0;
+}
+
+div.title{
+    margin-bottom: 2vh;
+}
+
+div.title h {
+    font-size:4vh;
+}
+
+div.collection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1vh;
+}
+
+div.network_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1vh;
+}
+
+div.network_content button {
+    font-size: 1.6vh;
+    margin-bottom: 2vh;
+    padding: 0.3vh 0.5vh 0.3vh 0.5vh;
+}
+
+div.network_title {
+    display: flex;
+    position: relative;
+    align-items: center;
+    margin-bottom: 1vh;
+}
+
+div.network_title button{
+    font-family: inherit;
+    font-size: 2.5vh;
+    background-color: transparent;
+    border: none;
+    margin-left: 1vh;
+    padding: 0;
+}
+
+div.network_title p {
+    position: absolute;
+    right: -1.5vh;
+    top: 0.5vh;
+    font-size: 2vh;
+    margin: 0 0 0 1vh;
+}
+
+div.network_title img{
+    height: 2.5vh;
+}
+
+div.canvas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+div.card img {
+    display: block;
+    height: 16vh;
+}
+
+div.card:hover {
+    z-index: 1;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}

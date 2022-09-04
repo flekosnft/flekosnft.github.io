@@ -1,0 +1,75 @@
+/*Section*/
+
+div.section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 4vh;
+}
+
+div.section > h{
+    font-size: 4vh;
+    margin-bottom: 2vh;
+}
+
+/*Contract*/
+
+div.contract {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1vh;
+}
+
+div.contract img{
+    height: 2.5vh;
+    margin-right: 1vh;
+}
+
+div.contract > h{
+    font-size: 2.5vh;
+    margin-right: 1vh;
+}
+
+div.contract > a{
+    font-size: 2vh;
+    margin: 0;
+}
+
+/*Markets*/
+
+div.markets {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8vh;
+}
+
+div.markets > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.markets > div div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1vh;
+}
+
+
+div.markets h{
+    font-size: 2.5vh;
+    text-decoration: underline;
+    margin-right: 1vh;
+    margin-bottom: 1vh;
+}
+
+div.markets img{
+    height: 2.5vh;
+    margin-right: 1vh;
+}
+
+div.markets a{
+    font-size: 2vh;
+    margin: 0;
+}

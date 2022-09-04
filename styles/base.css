@@ -1,0 +1,67 @@
+/*Font*/
+html {
+    font-family: Segoe UI;
+}
+
+/*Banner*/
+
+div.banner{
+    display: flex;
+    justify-content: center;
+    background-color: #C1D6E4;
+    margin-bottom: 3vh;
+    padding: 4vh 0 4vh 0;
+}
+
+img.logo{
+    display: block;
+    height: 6vh;
+}
+
+/*Menu*/
+
+nav.menu {
+    margin-bottom: 3vh;
+}
+
+nav.menu ul{
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav.menu li{
+    display: inline;
+    padding-left: 2vh;
+    padding-right: 2vh;
+}
+
+nav.menu li a{
+    font-size: 3vh;
+    text-decoration: none;
+    color: black;
+}
+
+/*Content*/
+
+div.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*Social*/
+
+div.social {
+    display: flex;
+    justify-content: center;
+    gap: 4vh;
+    margin-top: 8vh;
+    margin-bottom: 6vh;
+}
+
+div.social img {
+    height: 4vh;
+}

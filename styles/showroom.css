@@ -1,0 +1,63 @@
+/*Showroom*/
+
+div.filters{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3vh;
+}
+
+div.filters h{
+    font-size: 2.5vh;
+    margin-bottom: 2vh;
+}
+
+div.search{
+    display: flex;
+}
+
+div.search form{
+    display: flex;
+    align-items: center;
+    padding-left: 2vh;
+    padding-right: 2vh;
+}
+
+div.search form label{
+    font-size: 2vh;
+    margin-right: 0.5vh;
+}
+
+div.search form input{
+    font-size: 1.5vh;
+    vertical-align: top;
+    margin-right: 0.5vh;
+    padding: 0.2vh;
+}
+
+div.canvas{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+div.card img{
+    display: block;
+    height: 16vh;
+}
+
+div.card:hover{
+    z-index: 1;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+div.bottom{
+    display: flex;
+    justify-content: center;
+    margin-top: 2vh;
+}
+
+div.bottom button{
+    font-size: 2vh;
+}

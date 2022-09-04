@@ -1,0 +1,29 @@
+div.content > h {
+    font-size: 4vh;
+    text-align: center;
+    margin-bottom: 2vh;
+}
+
+div.content > p {
+    font-size: 2vh;
+    text-align: center;
+    margin: 0;
+    margin-bottom: 4vh;
+}
+
+div.content > img {
+    height: 40vh;
+    margin-bottom: 2vh;
+}
+
+
+
+div.fleko_footer p {
+    font-size: 2vh;
+    margin: 0;
+}
+
+div.fleko_footer p:nth-child(2) {
+    font-size: 1.5vh;
+    font-style: italic;
+}
