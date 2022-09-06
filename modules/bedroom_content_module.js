@@ -2,10 +2,11 @@ import { chains } from "./contracts_module.js";
 
 function loadContent(){
     let content = `<div class="signer">
+                        <button id="connect">Connect wallet</button>
                         <h>My address:</h>
-                        <p id="address">Connecting...</p>
+                        <p id="address">Not connected</p>
                         <h>Connected to:</h>
-                        <p id="network">Connecting...</p>
+                        <p id="network">Not connected</p>
                     </div>
                     <div class="title">
                         <h>My collection</h>
@@ -17,7 +18,7 @@ function loadContent(){
         let hide = (window.localStorage.getItem(`${chain}_hide`) == 1);
         content += `<div class="network_title" id="${chain}_title">
                         <img src="img/logos/${chain}.svg" alt="${chain}_logo">
-                        <button id="${chain}_hideShow" title="${title} (hide/show)">${title} `;
+                        <button id="${chain}_hideShow" onclick="hideShowCollection('${chain}')" title="${title} (hide/show)">${title} `;
                         if(hide){
                             content += `ʌ`
                         } else {
@@ -31,7 +32,7 @@ function loadContent(){
                         content += ` style="display: none;"`
                     }
                     content += `>
-                        <button id="${chain}_load">Load my flekos at ${chain}</button>
+                        <button id="${chain}_load"></button>
                         <div id="${chain}_content"></div>
                     </div>`;
     });

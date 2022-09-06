@@ -17,10 +17,11 @@ async function getWeb3Signer(){
             await provider.send("eth_requestAccounts", []);
             return provider.getSigner();
         } catch (error) {
-            alert('Error connecting to Web3Provider.');
+            return undefined;
         }
     } else {
         alert('Web3Provider not detected.');
+        return undefined;
     }
 }
 

@@ -1,7 +1,16 @@
 div.signer {
     display: flex;
+    position: relative;
     align-items: baseline;
     margin-bottom: 2vh;
+}
+
+div.signer button {
+    position: absolute;
+    left: -12vh;
+    top: 0.3vh;
+    font-size: 1.5vh;
+    padding: 0.3vh 0.5vh 0.3vh 0.5vh;
 }
 
 div.signer h {

@@ -1,5 +1,5 @@
 import { supply } from "./metadata_module.js";
-import { loadNFT } from './ntfLoader_module.js';
+import { loadNFT, recoverOnClickRefresh } from './ntfLoader_module.js';
 import { loadContent } from "./showroom_content_module.js";
 
 const queryString = window.location.search;
@@ -21,6 +21,7 @@ function loadNFTs() {
         loadNFT(loadCount, 'canvas')
         loadCount++;
     }
+    recoverOnClickRefresh();
 }
 
 function getNextLoad(count){
