@@ -13,10 +13,14 @@ div.content > p {
 
 div.content > img {
     height: 40vh;
-    margin-bottom: 2vh;
 }
 
-
+div.fleko_footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2vh;
+}
 
 div.fleko_footer p {
     font-size: 2vh;

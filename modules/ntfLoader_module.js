@@ -4,6 +4,8 @@ var loadingImage = new Image();
 loadingImage.src = 'img/loading.gif';
 var loadingName = 'Loading...';
 
+var toRefresh = [];
+
 async function loadNFT(token, containerId){
     document.getElementById(containerId).innerHTML += createNFTCard(loadingImage, loadingName, token);
     await getTokenJson(token).then((json) => {
@@ -31,6 +33,7 @@ function loadingStateNFT(tokenId){
 }
 
 function refreshStateNFT(tokenId){
+    toRefresh.push(tokenId);
     document.getElementById(`fleko_${tokenId}`).addEventListener("click", () => refreshNFT(tokenId));
     document.getElementById(`fleko_${tokenId}_img`).title = 'Refresh';
     document.getElementById(`fleko_${tokenId}_img`).src = 'img/refresh.png';
@@ -45,6 +48,8 @@ function loadedStateNFT(tokenJson, tokenId){
         document.getElementById(`fleko_${tokenId}_img`).title = tokenName;
         document.getElementById(`fleko_${tokenId}_img`).src = tokenImage.src;
         document.getElementById(`fleko_${tokenId}_img`).alt = tokenName;
+        document.getElementById(`fleko_${tokenId}_link`).href = `${window.location.protocol}//${window.location.host}/details.html?id=${tokenId}`
+
     }
     tokenImage.onerror = () => {
         refreshStateNFT(tokenId);
@@ -54,11 +59,18 @@ function loadedStateNFT(tokenJson, tokenId){
 function createNFTCard(image, name, id){
     return (`
         <div id="fleko_${id}" class="card">
-            <a href="${window.location.protocol}//${window.location.host}/details.html?id=${id}">
+            <a id="fleko_${id}_link">
                 <img id="fleko_${id}_img" title="${name}" src="${image.src}" alt="${name}">
             </a>
         </div>
         `)
 }
 
-export{loadNFT}
+function recoverOnClickRefresh(){
+    toRefresh.forEach((id) => {
+        document.getElementById(`fleko_${id}`).addEventListener("click", () => refreshNFT(id));
+    })
+    toRefresh = [];
+}
+
+export{loadNFT, recoverOnClickRefresh}

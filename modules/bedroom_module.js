@@ -1,19 +1,25 @@
-import {chainByChainId, onAccountChanged, onChainChanged, getWeb3Signer, getWeb3Provider} from './web3_module.js';
+import { chainByChainId, onAccountChanged, onChainChanged, getWeb3Signer, getWeb3Provider } from './web3_module.js';
 import { supply } from "./metadata_module.js";
 import { loadNFT } from './ntfLoader_module.js';
 import { loadContent } from './bedroom_content_module.js';
 import { chains, getContract} from './contracts_module.js';
 
 const updateWarning = 'Are you sure?\nUpdating will remove your local data and the code will need to look again on the blockchain. This action may take some time!';
-const workingWarning = 'Are you sure?\nAnother process is running. This can slow down ongoing executions and increase resource usage.'
+const workingWarning = 'Are you sure?\nAnother process is running. This can slow down ongoing executions and increase resource usage.';
+const onAccountChangedWarning = 'Are you sure? Changing or disconnecting the current account will reset your collection and ongoing processes will stop.';
 
-const clock = ['/', '-', '\\']
+const documentTitle = document.title;
+
+const clock = ['/', '-', '\\', '|']
+
+var addressElement, networkElement;
 
 var provider;
 var network;
 var signer;
 var signerAddress;
 var currentProcesses = 0;
+var accountChanged = false;
 var loadingState = {
     ethereum: false,
     polygon: false,
@@ -28,48 +34,85 @@ window.onload = async () => {
     document.getElementById('room').style.background = '#DDDCE3';
     document.getElementById('content').innerHTML = loadContent();
 
-    signer = await getWeb3Signer();
-    signerAddress = await signer.getAddress();
-    document.getElementById('address').innerHTML = signerAddress;
+    addressElement = document.getElementById('address');
+    networkElement = document.getElementById('network');
 
-    provider = getWeb3Provider();
-    network = await provider.getNetwork();
-    let chainName = chainByChainId[network.chainId]
-    chainName = chainName.charAt(0).toUpperCase() + chainName.slice(1)
-    document.getElementById('network').innerHTML = chainName;
 
-    chains.forEach((chain) => {
-        document.getElementById(`${chain}_load`).onclick = () => load(getContract(chain), chain, false);
-        document.getElementById(`${chain}_title`).onclick = () => hideShowCollection(chain);
-    })
+    document.getElementById('connect').addEventListener('click', () => {
+        if(!signer){
+            connectWallet();
+        }
+    });
+    
+    initCollection();
 }
 
-function hideShowCollection(chain){
-    let title = chain.charAt(0).toUpperCase() + chain.slice(1);
-    let collection = document.getElementById(`${chain}`);
-    let hideShowButton = document.getElementById(`${chain}_hideShow`);
-    if (collection.style.display === 'none') {
-        collection.style.display = 'flex';
-        hideShowButton.innerHTML = `${title} v`;
-        window.localStorage.setItem(`${chain}_hide`, 2);
+async function connectWallet(){
+    addressElement.innerHTML = 'Connecting...';
+    networkElement.innerHTML = 'Connecting...';
+
+    signer = await getWeb3Signer();
+    if(signer){
+        signerAddress = await signer.getAddress();
+        provider = getWeb3Provider();
+        network = await provider.getNetwork();
+
+        addressElement.innerHTML = signerAddress;
+        let chainName = chainByChainId[network.chainId]
+        chainName = chainName.charAt(0).toUpperCase() + chainName.slice(1);
+        networkElement.innerHTML = chainName;
     } else {
-        collection.style.display = 'none';
-        hideShowButton.innerHTML = `${title} ʌ`;
-        window.localStorage.setItem(`${chain}_hide`, 1);
+        disconnect();
     }
 }
 
-onAccountChanged(async () => {
-    window.location.reload();
+function disconnect(){
+    provider = network = signer = signerAddress = undefined;
+    addressElement.innerHTML = 'Not connected';
+    networkElement.innerHTML = 'Not connected';
+}
+
+onAccountChanged(async (accounts) => {
+    let change = true;
+    if(currentProcesses > 0){
+        if(confirm(onAccountChangedWarning)) accountChanged = true;
+        else change = false;
+    }
+    if(change){
+        if(accounts.length){
+            connectWallet()
+            initCollection();
+        } else {
+            disconnect();
+        }
+    }
 });
 
 onChainChanged(async () => {
-    provider = getWeb3Provider();
-    network = await provider.getNetwork();
-    let chainName = chainByChainId[network.chainId]
-    chainName = chainName.charAt(0).toUpperCase() + chainName.slice(1)
-    document.getElementById('network').innerHTML = chainName;
+    try{
+        provider = getWeb3Provider();
+        network = await provider.getNetwork();
+        let chainName = chainByChainId[network.chainId];
+        chainName = chainName.charAt(0).toUpperCase() + chainName.slice(1);
+        networkElement.innerHTML = chainName;
+    } catch (error) {
+        networkElement.innerHTML = 'Not available';
+    }
 });
+
+function initCollection(){
+    chains.forEach((chain) => {
+        document.getElementById(`${chain}_content`).innerHTML = '';
+        document.getElementById(`${chain}_load`).innerHTML = `Load my flekos at ${chain}`;
+        document.getElementById(`${chain}_load`).onclick = () => {
+            if(signer){
+                load(getContract(chain), chain, false);
+            } else {
+                alert("Connect your wallet first!")
+            }
+        };
+    });
+}
 
 function load(contract, chain, update){
     if(checkStored(chain) && !update){
@@ -88,16 +131,12 @@ function load(contract, chain, update){
 async function beforeLoadFromChain(contract, chain, removeLocal){
     if(currentProcesses > 0){
         if(confirm(workingWarning)){
-            currentProcesses++;
             if(removeLocal) window.localStorage.removeItem(chain + signerAddress);
             await loadFromChain(contract, chain);
-            currentProcesses--;
         }
     } else {
-        currentProcesses++;
         if(removeLocal) window.localStorage.removeItem(chain + signerAddress);
         await loadFromChain(contract, chain);
-        currentProcesses--;
     }
 }
 
@@ -143,7 +182,6 @@ async function loadStored(contract, chain){
 }
 
 async function loadFromChain(contract, chain){
-    let documentTitle = document.title;
     document.title = documentTitle + ' (Loading...)';
     let contentElement = document.getElementById(`${chain}_content`);
     contentElement.innerHTML = await loadCanvas(chain);
@@ -154,10 +192,11 @@ async function loadFromChain(contract, chain){
     loadingState[chain] = true;
     loadingAnimation(loadingElement, chain, 0, '');
 
+    currentProcesses++;
     loadElement.disabled = true;
     let searchAtSameTime = 10;
     let ids = [];
-    for(let c = 0; c <= supply; c += searchAtSameTime){
+    for(let c = 0; c <= supply && !accountChanged; c += searchAtSameTime){
         loadElement.innerHTML = `Loading from the blockchain... ${c}/${supply}`;
         let owners = await ownerOfParallel(contract, c, searchAtSameTime);
         for(let i = 0; i < owners.length; i++){
@@ -167,17 +206,27 @@ async function loadFromChain(contract, chain){
             }
         }
     }
-    window.localStorage.setItem(chain + signerAddress, JSON.stringify(ids));
     
+    currentProcesses--;
     document.title = documentTitle;
     loadingState[chain] = false;
-    loadElement.innerHTML = 'Load completed!';
-    if(canvasElement.childElementCount == 0) contentElement.innerHTML = '<p>No results.</p>';
-    setTimeout(() => {
-        loadElement.onclick = () => load(contract, chain, true);
-        loadElement.innerHTML = 'Update';
-        loadElement.disabled = false;
-    }, 1000);
+    if(accountChanged){
+        setTimeout(() => {
+            loadElement.disabled = false;
+        }, 1000);
+        if(currentProcesses == 0){
+            accountChanged = false;
+        }
+    } else {
+        window.localStorage.setItem(chain + signerAddress, JSON.stringify(ids));
+        loadElement.innerHTML = 'Load completed!';
+        if(canvasElement.childElementCount == 0) contentElement.innerHTML = '<p>No results.</p>';
+        setTimeout(() => {
+            loadElement.onclick = () => load(contract, chain, true);
+            loadElement.innerHTML = 'Update';
+            loadElement.disabled = false;
+        }, 1000);
+    }
 }
 
 async function ownerOfParallel(contract, startPoint, numberOfProcesses){
