@@ -3,10 +3,14 @@ import { chains } from "./contracts_module.js";
 function loadContent(){
     let content = `<div class="signer">
                         <button id="connect">Connect wallet</button>
-                        <h>My address:</h>
-                        <p id="address">Not connected</p>
-                        <h>Connected to:</h>
-                        <p id="network">Not connected</p>
+                        <div>
+                            <h>My address:</h>
+                            <p id="address">Not connected</p>
+                        </div>
+                        <div>
+                            <h>Connected to:</h>
+                            <p id="network">Not connected</p>
+                        </div>
                     </div>
                     <div class="title">
                         <h>My collection</h>

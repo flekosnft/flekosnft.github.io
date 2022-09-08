@@ -1,6 +1,7 @@
 /*Font*/
 html {
     font-family: Segoe UI;
+    width: 100vw;
 }
 
 /*Banner*/
@@ -26,7 +27,9 @@ nav.menu {
 
 nav.menu ul{
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 2vh;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -34,8 +37,8 @@ nav.menu ul{
 
 nav.menu li{
     display: inline;
-    padding-left: 2vh;
-    padding-right: 2vh;
+    padding-left: 1vh;
+    padding-right: 1vh;
 }
 
 nav.menu li a{

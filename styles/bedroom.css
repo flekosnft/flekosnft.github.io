@@ -1,22 +1,27 @@
 div.signer {
     display: flex;
-    position: relative;
+    flex-wrap: wrap;
     align-items: baseline;
+    justify-content: center;
+    gap: 2vh;
     margin-bottom: 2vh;
 }
 
 div.signer button {
-    position: absolute;
-    left: -12vh;
-    top: 0.3vh;
     font-size: 1.5vh;
     padding: 0.3vh 0.5vh 0.3vh 0.5vh;
+}
+
+div.signer div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 }
 
 div.signer h {
     font-size: 2vh;
     font-weight: bold;
-    margin-left: 2vh;
     margin-right: 1vh;
 }
 

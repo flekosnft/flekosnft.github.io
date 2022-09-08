@@ -15,13 +15,15 @@ div.filters h{
 
 div.search{
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2vh;
 }
 
 div.search form{
     display: flex;
     align-items: center;
-    padding-left: 2vh;
-    padding-right: 2vh;
+    justify-content: center;
 }
 
 div.search form label{

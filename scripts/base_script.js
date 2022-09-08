@@ -24,7 +24,7 @@ function loadSocial(){
             <a href="https://discord.com/invite/CWbj6zfCEW">
                 <img title="discord" src="img/logos/discord.svg" alt="discord_logo">
             </a>
-            <a href="https://github.com/flekofather/Flekos">
+            <a href="https://github.com/flekosnft/flekos_resources">
                 <img title="github" src="img/logos/github.svg" alt="github_logo">
             </a>`;
 }
