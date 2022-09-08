@@ -1,6 +1,8 @@
 import { getTokenJson, getTokenImage } from "./metadata_module.js";
+import { getContract } from './contracts_module.js';
 import {getNetworkByTokenId} from './omnichain_module.js';
 import { loadContent } from "./details_content_module.js";
+import { loadingAnimatation, finishLoadingAnimation } from './animations_module.js';
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -11,6 +13,10 @@ window.onload = () => {
 }
 
 async function loadInfo(){
+    let loadingChainElement = document.getElementById('loadingChain');
+    let loadingOwnerElement = document.getElementById('loadingOwner');
+    loadingAnimatation(loadingChainElement, 150);
+    loadingAnimatation(loadingOwnerElement, 150);
     var json = await getTokenJson(urlParams.get('id'));
     let name = json.name;
     name = name.charAt(0).toUpperCase() + name.slice(1);
@@ -25,11 +31,15 @@ async function loadInfo(){
     for(let i = 0; i < json.attributes.length; i++){
         if(attributeFilter(json.attributes[i])) document.getElementById('attributes').innerHTML += attributes(json.attributes[i]);
     }
-    await getNetworkByTokenId(json.tokenId).then((network) => {
+    await getNetworkByTokenId(json.tokenId).then(async (network) => {
         if(network == undefined) {
             document.getElementById('chainInfo').innerHTML = 'This fleko seems to be lost between networks!'
         }else{
             document.getElementById('chainInfo').innerHTML = `Currently at <b>${network}</b> network`;
+            finishLoadingAnimation(loadingChain);
+            loadingChain.innerHTML = '';
+            document.getElementById('owner').innerHTML = await getContract(network).ownerOf(json.tokenId);
+            finishLoadingAnimation(loadingOwner);
         }
     });
 }

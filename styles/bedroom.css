@@ -57,6 +57,12 @@ div.network_content button {
     padding: 0.3vh 0.5vh 0.3vh 0.5vh;
 }
 
+div.network_content p {
+    font-size: 1.6vh;
+    margin: 0;
+    margin-bottom: 2vh;
+}
+
 div.network_title {
     display: flex;
     position: relative;
@@ -75,10 +81,8 @@ div.network_title button{
 
 div.network_title p {
     position: absolute;
-    right: -1.5vh;
-    top: 0.5vh;
+    right: -2vh;
     font-size: 2vh;
-    margin: 0 0 0 1vh;
 }
 
 div.network_title img{

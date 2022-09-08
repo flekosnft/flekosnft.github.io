@@ -1,13 +1,20 @@
-function loadingAnimation(element, clock, index, finishState){
-    setTimeout(() => {
-        element = clock[index];
-        if(loadingState[chain]){
-            if(index < clock.length - 1) loadingAnimation(chain, ++index);
-            else loadingAnimation(chain, 0)
-        } else {
-            element = finishState;
-        }
-    }, 150);
+const clock = ['/', '-', '\\', '|'];
+
+var loading = {};
+
+function loadingAnimatation(element, interval){
+    let index = 0;
+    loading[element.id] = setInterval(() => {
+        if(index >= clock.length - 1) index = 0;
+        element.innerHTML = clock[index++];
+    }, interval)
 }
 
-export{loading}
+function finishLoadingAnimation(element){
+    clearInterval(loading[element.id]);
+    if (loading.length == 0) loading = {};
+    element.innerHTML = '';
+}
+
+
+export{loadingAnimatation, finishLoadingAnimation}

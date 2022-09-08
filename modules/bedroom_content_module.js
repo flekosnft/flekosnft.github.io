@@ -20,9 +20,9 @@ function loadContent(){
                         <img src="img/logos/${chain}.svg" alt="${chain}_logo">
                         <button id="${chain}_hideShow" onclick="hideShowCollection('${chain}')" title="${title} (hide/show)">${title} `;
                         if(hide){
-                            content += `ʌ`
-                        } else {
                             content += `v`
+                        } else {
+                            content += `ʌ`
                         }
                         content += `</button>
                         <p id="${chain}_loading"><p>
