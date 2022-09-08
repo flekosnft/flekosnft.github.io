@@ -1,15 +1,42 @@
 div.title{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 2vh;
 }
 
 div.title h {
-    display: block;
-    text-align: center;
     font-size:4vh;
 }
 
-div.title p {
+div.title div {
+    display: flex;
+    align-items: baseline;
+}
+
+div.chainInfo {
+    position: relative;
+}
+
+div.chainInfo p {
     font-size: 2vh;
+    margin: 0;
+}
+
+div.chainInfo p:nth-child(2) {
+    position: absolute;
+    right: -2vh;
+    font-size: 2vh;
+}
+
+div.ownerInfo h {
+    font-size: 2vh;
+    font-weight: bold;
+    margin-right: 1vh;
+}
+
+div.ownerInfo p {
+    font-size: 1.5vh;
     margin: 0;
 }
 

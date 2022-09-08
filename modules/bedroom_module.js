@@ -3,14 +3,13 @@ import { supply } from "./metadata_module.js";
 import { loadNFT } from './ntfLoader_module.js';
 import { loadContent } from './bedroom_content_module.js';
 import { chains, getContract} from './contracts_module.js';
+import { loadingAnimatation, finishLoadingAnimation } from './animations_module.js';
 
 const updateWarning = 'Are you sure?\nUpdating will remove your local data and the code will need to look again on the blockchain. This action may take some time!';
 const workingWarning = 'Are you sure?\nAnother process is running. This can slow down ongoing executions and increase resource usage.';
 const onAccountChangedWarning = 'Are you sure? Changing or disconnecting the current account will reset your collection and ongoing processes will stop.';
 
 const documentTitle = document.title;
-
-const clock = ['/', '-', '\\', '|']
 
 var addressElement, networkElement;
 
@@ -41,6 +40,8 @@ window.onload = async () => {
     document.getElementById('connect').addEventListener('click', () => {
         if(!signer){
             connectWallet();
+        } else {
+            alert('Already connected!\nNow you can manage your accounts directly from your wallet.')
         }
     });
     
@@ -140,18 +141,6 @@ async function beforeLoadFromChain(contract, chain, removeLocal){
     }
 }
 
-function loadingAnimation(element, chain, index, finishState){
-    setTimeout(() => {
-        element.innerHTML = clock[index];
-        if(loadingState[chain]){
-            if(index < clock.length - 1) loadingAnimation(element, chain, ++index, finishState);
-            else loadingAnimation(element, chain, 0, finishState)
-        } else {
-            element.innerHTML = finishState;
-        }
-    }, 150);
-}
-
 function checkStored(chain){
     if(window.localStorage.getItem(chain + signerAddress)) return true;
     else return false;
@@ -189,9 +178,7 @@ async function loadFromChain(contract, chain){
     let canvasElement = document.getElementById(`${chain}_canvas`);
     let loadElement = document.getElementById(`${chain}_load`);
 
-    loadingState[chain] = true;
-    loadingAnimation(loadingElement, chain, 0, '');
-
+    loadingAnimatation(loadingElement, 150);
     currentProcesses++;
     loadElement.disabled = true;
     let searchAtSameTime = 10;
@@ -207,6 +194,7 @@ async function loadFromChain(contract, chain){
         }
     }
     
+    finishLoadingAnimation(loadingElement);
     currentProcesses--;
     document.title = documentTitle;
     loadingState[chain] = false;

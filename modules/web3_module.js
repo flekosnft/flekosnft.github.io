@@ -38,19 +38,19 @@ function getWeb3Provider(){
 }
 
 function onAccountChanged(handle){
-    web3.on('accountsChanged', handle);
+    if(web3) web3.on('accountsChanged', handle);
 }
 
 function onChainChanged(handle){
-    web3.on('chainChanged', handle);
+    if(web3) web3.on('chainChanged', handle);
 }
 
 function onConnect(handle){
-    web3.on('connect', handle);
+    if(web3) web3.on('connect', handle);
 }
 
 function onDisconnect(handle){
-    web3.on('disconnect', handle);
+    if(web3) web3.on('disconnect', handle);
 }
 
 export{
